@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligations & Contracts Learning Hub - Aj Delos Reyes</title>
+    <style>
+        /* Modern Slate & Teal Color Palette */
+        :root {
+            --bg-main: #f8fafc;
+            --surface: #ffffff;
+            --primary: #0f766e;
+            --primary-hover: #0d9488;
+            --primary-light: #ccfbf1;
+            --dark-navy: #0f172a;
+            --slate-card: #1e293b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-gold: #d97706;
+            --radius: 10px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header & Student Identification Badge */
+        header {
+            background-color: var(--dark-navy);
+            color: #ffffff;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 4px solid var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #f8fafc;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .student-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid #334155;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            display: grid;
+            grid-template-columns: auto auto;
+            column-gap: 1.2rem;
+            row-gap: 0.2rem;
+        }
+
+        .student-badge strong {
+            color: var(--primary-light);
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 0 1rem;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            padding: 0.9rem 1.2rem;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            background-color: #f1f5f9;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background-color: #f0fdf4;
+        }
+
+        .badge-count {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: 6px;
+        }
+
+        .nav-item.active .badge-count {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Main Workspace Layout */
+        .main-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            flex: 1;
+        }
+
+        /* Search Filter Controls */
+        .search-container {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 280px;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            outline: none;
+            background-color: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background-color: #ffffff;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-main);
+        }
+
+        /* Content Sections */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Card Styles */
+        .topic-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .topic-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-title-group h2 {
+            font-size: 1.25rem;
+            color: var(--dark-navy);
+        }
+
+        .article-tag {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .bookmark-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .bookmark-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .bookmark-btn.saved {
+            background-color: #fef3c7;
+            color: var(--accent-gold);
+            border-color: #f59e0b;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0 0.4rem 0;
+        }
+
+        .concept-text {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+        }
+
+        .bullet-list {
+            margin-left: 1.25rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .bullet-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Real-life Scenario Box */
+        .scenario-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+        }
+
+        .scenario-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Defective Contracts Grid */
+        .contract-status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .status-card {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+        }
+
+        .status-card.rescissible { border-top: 4px solid #f59e0b; }
+        .status-card.voidable { border-top: 4px solid #3b82f6; }
+        .status-card.unenforceable { border-top: 4px solid #8b5cf6; }
+        .status-card.void { border-top: 4px solid #ef4444; }
+
+        .status-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Flashcards Grid */
+        .flashcards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .flashcard {
+            background-color: transparent;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius);
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .flashcard-front {
+            background-color: var(--surface);
+            color: var(--dark-navy);
+        }
+
+        .flashcard-front h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .flashcard-front span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .flashcard-back {
+            background-color: var(--dark-navy);
+            color: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-back p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Contract Requisites Checker Interactive Tool */
+        .checker-tool {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .checker-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+
+        .form-group select {
+            padding: 0.6rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .checker-result {
+            background-color: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            margin-top: 1rem;
+        }
+
+        .checker-result h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Quiz Styling */
+        .quiz-container {
+            background: #ffffff;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .quiz-question p {
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 0.8rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.15s;
+        }
+
+        .option-label:hover {
+            background-color: #f8fafc;
+        }
+
+        .option-label input[type="radio"] {
+            accent-color: var(--primary);
+        }
+
+        .action-btn {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 0.85rem 1.8rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .quiz-explanation {
+            display: none;
+            font-size: 0.85rem;
+            padding: 0.6rem 0.8rem;
+            margin-top: 0.6rem;
+            border-radius: 6px;
+        }
+
+        .quiz-explanation.show {
+            display: block;
+        }
+
+        .quiz-explanation.correct {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .quiz-explanation.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .score-banner {
+            display: none;
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--dark-navy);
+            color: #ffffff;
+            padding: 0.8rem 1.4rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-navy);
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            margin-top: auto;
+            border-top: 1px solid #334155;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .student-badge {
+                grid-template-columns: 1fr;
+            }
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-container {
+                flex-direction: column;
+            }
+            .search-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Student Identification -->
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>Obligations & Contracts Learning Hub</h1>
+                <p>Civil Code of the Philippines - Academic Study Guide</p>
+            </div>
+            <div class="student-badge">
+                <div><strong>Student:</strong> Aj Delos Reyes</div>
+                <div><strong>Student ID:</strong> 23-00089</div>
+                <div><strong>Year & Course:</strong> 4th Year BSIT</div>
+                <div><strong>Subject:</strong> Web Development</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Header -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <button class="nav-item active" onclick="switchTab('lessons', this)">Lessons & Articles</button>
+            <button class="nav-item" onclick="switchTab('flashcards', this)">Flashcards Glossary</button>
+            <button class="nav-item" onclick="switchTab('checker', this)">Contract Validator Tool</button>
+            <button class="nav-item" onclick="switchTab('quiz', this)">8-Question Quiz</button>
+            <button class="nav-item" onclick="switchTab('bookmarks', this)">
+                Saved Reviewer <span id="bookmarkBadge" class="badge-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+
+        <!-- LESSONS TAB -->
+        <div id="lessons" class="tab-panel active">
+            <!-- Search & Filter Controls -->
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" onkeyup="applyFilters()" placeholder="Search terms, articles, or keywords (e.g. Art. 1156, Fraud, Mora, Consent)...">
+                <select id="categoryFilter" class="filter-select" onchange="applyFilters()">
+                    <option value="ALL">All Categories</option>
+                    <option value="GENERAL">General Provisions (1156-1162)</option>
+                    <option value="NATURE">Nature & Effects (1163-1174)</option>
+                    <option value="CONTRACTS">Contracts & Requisites (1305, 1318)</option>
+                    <option value="DEFECTIVE">Defective Contracts (1380, 1409)</option>
+                </select>
+            </div>
+
+            <!-- CARD 1: ART 1156 -->
+            <article class="topic-card" data-category="GENERAL" data-id="art1156">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="article-tag">Article 1156</span>
+                        <h2>Concept of Obligation</h2>
+                    </div>
+                    <button class="bookmark-btn" onclick="toggleBookmark('art1156', 'Art. 1156 - Concept of Obligation')">
+                        <span>★</span> <span class="btn-text">Save</span>
+                    </button>
+                </div>
+
+                <div class="section-subtitle">Core Legal Concept</div>
+                <p class="concept-text">An <strong>obligation</strong> is a juridical necessity to give, to do, or not to do (Civil Code of the Philippines). It creates a binding legal tie (<em>vinculum juris</em>) where the creditor can compel the debtor to perform an act or prestation in court.</p>
+
+                <div class="section-subtitle">Essential Elements Breakdown</div>
+                <ul class="bullet-list">
+                    <li><strong>Active Subject (Creditor / Obligee):</strong> The person entitled to demand performance.</li>
+                    <li><strong>Passive Subject (Debtor / Obligor):</strong> The person bound to fulfill the obligation.</li>
+                    <li><strong>Prestation (Object):</strong> The required conduct (to give, to do, or not to do).</li>
+                    <li><strong>Juridical Tie (Vinculum Juris):</strong> The legal relation connecting the parties created by law or contract.</li>
+                </ul>
+
+                <div class="scenario-box">
+                    <div class="scenario-title">💡 Everyday Real-Life Scenario (Halimbawa)</div>
+                    <p><strong>Buying a Smartphone Online:</strong> When you purchase a smartphone from a merchant for ₱15,000, you are the debtor obligated to pay the money, and the merchant is the creditor. Once paid, the roles flip: the merchant becomes the debtor obligated to deliver the phone (prestation), and you become the creditor entitled to demand delivery.</p>
+                </div>
+            </article>
+
+            <!-- CARD 2: ART 1157 -->
+            <article class="topic-card" data-category="GENERAL" data-id="art1157">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="article-tag">Article 1157</span>
+                        <h2>Sources of Obligations</h2>
+                    </div>
+                    <button class="bookmark-btn" onclick="toggleBookmark('art1157', 'Art. 1157 - Sources of Obligations')">
+                        <span>★</span> <span class="btn-text">Save</span>
+                    </button>
+                </div>
+
+                <div class="section-subtitle">Core Legal Concept</div>
+                <p class="concept-text">Obligations arise exclusively from five distinct legal sources under Philippine civil law:</p>
+
+                <ul class="bullet-list">
+                    <li><strong>1. Law (Ex Lege):</strong> Expressly established by statute (e.g., duty to pay taxes under the Tax Code).</li>
+                    <li><strong>2. Contracts (Ex Contractu):</strong> Voluntary agreements meeting all legal requisites (Art. 1305).</li>
+                    <li><strong>3. Quasi-Contracts (Ex Quasi-Contractu):</strong> Lawful, voluntary, and unilateral acts to prevent unjust enrichment (e.g., <em>Solutio Indebiti</em> - erroneous payment).</li>
+                    <li><strong>4. Acts/Omissions Punished by Law (Delicts):</strong> Civil liability arising from commission of a crime (Art. 100, Revised Penal Code).</li>
+                    <li><strong>5. Quasi-Delicts / Torts (Ex Quasi-Delicto):</strong> Damage caused by fault or negligence where no pre-existing contract exists (Art. 2176).</li>
+                </ul>
+
+                <div class="scenario-box">
+                    <div class="scenario-title">💡 Real-Life Scenario: Quasi-Delict vs. Quasi-Contract</div>
+                    <p><strong>Quasi-Delict:</strong> While driving carefully, a reckless driver crashes into your parked motorcycle. There is no contract between you, but the driver is legally obligated to pay for damages due to negligence.</p>
+                    <p style="margin-top:6px;"><strong>Quasi-Contract:</strong> If GCash accidentally transfers ₱2,000 into your wallet due to a system glitch, you are legally bound to return it under <em>Solutio Indebiti</em>.</p>
+                </div>
+            </article>
+
+            <!-- CARD 3: ART 1163-1174 -->
+            <article class="topic-card" data-category="NATURE" data-id="art1163_1174">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="article-tag">Articles 1163 - 1174</span>
+                        <h2>Nature and Effect of Obligations</h2>
+                    </div>
+                    <button class="bookmark-btn" onclick="toggleBookmark('art1163_1174', 'Arts. 1163-1174 - Nature & Effects')">
+                        <span>★</span> <span class="btn-text">Save</span>
+                    </button>
+                </div>
+
+                <div class="section-subtitle">Core Legal Concept & Standard of Care</div>
+                <p class="concept-text">Every person obliged to give something is bound to take care of it with the <strong>diligence of a good father of a family</strong> (bonus paterfamilias), unless the law or stipulation requires another standard of care.</p>
+
+                <div class="section-subtitle">Grounds for Damages (Art. 1170)</div>
+                <ul class="bullet-list">
+                    <li><strong>Fraud (Dolo):</strong> Deliberate intent to evade normal fulfillment of an obligation.</li>
+                    <li><strong>Negligence (Culpa):</strong> Omission of required diligence without deliberate bad intent.</li>
+                    <li><strong>Delay (Mora):</strong> Failure to perform on time after judicial or extrajudicial demand (<em>Mora Solvendi</em> = debtor delay; <em>Mora Accipiendi</em> = creditor delay).</li>
+                    <li><strong>Contravention of Tenor:</strong> Direct violation of any explicit terms of the obligation.</li>
+                </ul>
+
+                <div class="section-subtitle">Fortuitous Events / Caso Fortuito (Art. 1174)</div>
+                <p class="concept-text">No person shall be held liable for events that could not be foreseen, or which, though foreseen, were inevitable (acts of God or force majeure), EXCEPT when specified by law or contract, or when nature of obligation requires assumption of risk.</p>
+
+                <div class="scenario-box">
+                    <div class="scenario-title">💡 Real-Life Scenario: Fortuitous Event Exception</div>
+                    <p>A car rental agency is supposed to deliver a van on Friday. If an unexpected super-typhoon causes flash floods that destroy the van before Friday, they are excused due to a <em>Fortuitous Event</em>. HOWEVER, if the agency was ALREADY in delay (Mora) before the typhoon struck, they remain liable for damages!</p>
+                </div>
+            </article>
+
+            <!-- CARD 4: ART 1305 & 1318 -->
+            <article class="topic-card" data-category="CONTRACTS" data-id="art1305_1318">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="article-tag">Articles 1305 & 1318</span>
+                        <h2>Definition & Essential Requisites of Contracts</h2>
+                    </div>
+                    <button class="bookmark-btn" onclick="toggleBookmark('art1305_1318', 'Arts. 1305 & 1318 - Requisites of Contracts')">
+                        <span>★</span> <span class="btn-text">Save</span>
+                    </button>
+                </div>
+
+                <div class="section-subtitle">Definition (Art. 1305)</div>
+                <p class="concept-text">A <strong>contract</strong> is a meeting of minds between two persons whereby one binds himself, with respect to the other, to give something or to render some service.</p>
+
+                <div class="section-subtitle">Three Essential Requisites (Art. 1318)</div>
+                <p class="concept-text">There is NO contract unless the following three elements concur:</p>
+                <ul class="bullet-list">
+                    <li><strong>1. Consent:</strong> Manifested by the meeting of the offer and the acceptance upon the thing and the cause. Must be intelligent, free, and voluntary.</li>
+                    <li><strong>2. Object Certain:</strong> The subject matter of the contract. Must be licit, possible, and determinate or determinable.</li>
+                    <li><strong>3. Cause / Consideration:</strong> The essential reason why each party enters into the agreement (e.g., price for seller, item for buyer).</li>
+                </ul>
+
+                <div class="scenario-box">
+                    <div class="scenario-title">💡 Real-Life Scenario: Freelance IT Contract</div>
+                    <p>An IT student agrees to build a website for a local bakery for ₱20,000. <strong>Consent:</strong> Both signed the agreement freely. <strong>Object:</strong> Web development services. <strong>Cause:</strong> ₱20,000 payment for the student, and completed website for the client. All 3 requisites are met, creating a binding contract.</p>
+                </div>
+            </article>
+
+            <!-- CARD 5: DEFECTIVE CONTRACTS -->
+            <article class="topic-card" data-category="DEFECTIVE" data-id="defective_contracts">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="article-tag">Articles 1380 & 1409</span>
+                        <h2>Defective Contracts Classification</h2>
+                    </div>
+                    <button class="bookmark-btn" onclick="toggleBookmark('defective_contracts', 'Defective Contracts Overview')">
+                        <span>★</span> <span class="btn-text">Save</span>
+                    </button>
+                </div>
+
+                <p class="concept-text">Under Philippine law, defective contracts are categorized into 4 levels according to severity of defect:</p>
+
+                <div class="contract-status-grid">
+                    <div class="status-card rescissible">
+                        <h4>1. Rescissible</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Valid until rescinded. Defect is economic damage or financial lesion to a party or third person (e.g., sale of property to defraud creditors).</p>
+                    </div>
+                    <div class="status-card voidable">
+                        <h4>2. Voidable</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Valid until annulled. Defect is vitiated consent (intimidation, fraud, mistake) or incapacity of one party (e.g., contract signed by a minor).</p>
+                    </div>
+                    <div class="status-card unenforceable">
+                        <h4>3. Unenforceable</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Cannot be enforced in court unless ratified. Defect is lack of authority, failure to comply with Statute of Frauds, or both parties incapable.</p>
+                    </div>
+                    <div class="status-card void">
+                        <h4>4. Void / Inexistent</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Produces no legal effect whatsoever. Absolutely null from the beginning (e.g., contract to sell illegal substances or illegal object).</p>
+                    </div>
+                </div>
+
+                <div class="scenario-box">
+                    <div class="scenario-title">💡 Real-Life Scenario: Voidable vs. Void</div>
+                    <p><strong>Voidable:</strong> A 16-year-old student buys a high-end laptop. The contract is valid until the parents or minor petition court to annul it.</p>
+                    <p style="margin-top:6px;"><strong>Void:</strong> Two individuals sign a written agreement to trade smuggled goods. The contract is completely void (inexistent) and unenforceable in court.</p>
+                </div>
+            </article>
+        </div>
+
+        <!-- FLASHCARDS GLOSSARY TAB -->
+        <div id="flashcards" class="tab-panel">
+            <h2 style="margin-bottom:0.5rem; color:var(--dark-navy);">Interactive Legal Terms Flashcards</h2>
+            <p style="margin-bottom:1.5rem; color:var(--text-muted);">Click any card to flip and view the legal definition and Latin terms used in Philippine law.</p>
+
+            <div class="flashcards-grid">
+                <!-- Card 1 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span>Latin Legal Term</span>
+                            <h3>Solutio Indebiti</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Click to Flip 🔄</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p><strong>Quasi-Contract:</strong> Payment received by mistake when there was no legal right to demand it. The recipient is legally obligated to return the payment to prevent unjust enrichment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span>Latin Legal Term</span>
+                            <h3>Negotiorum Gestio</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Click to Flip 🔄</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p><strong>Quasi-Contract:</strong> Voluntary management of the abandoned property or business of another without their prior knowledge or consent. The owner must reimburse necessary expenses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span>Legal Ground</span>
+                            <h3>Mora Solvendi</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Click to Flip 🔄</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p><strong>Debtor Default:</strong> Delay on the part of the debtor to fulfill their obligation after extrajudicial or judicial demand from the creditor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span>Legal Defense</span>
+                            <h3>Caso Fortuito</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Click to Flip 🔄</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p><strong>Fortuitous Event:</strong> Extraordinary events which could not be foreseen, or which though foreseen were inevitable (e.g., earthquakes, typhoons, acts of war).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span>Source of Obligation</span>
+                            <h3>Culpa Aquiliana</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Click to Flip 🔄</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p><strong>Quasi-Delict / Tort:</strong> Negligence that causes damage independent of any pre-existing contractual relationship between the parties (Art. 2176).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTRACT VALIDATOR TOOL TAB -->
+        <div id="checker" class="tab-panel">
+            <div class="checker-tool">
+                <h2 style="color:var(--dark-navy); margin-bottom:0.4rem;">Interactive Contract Requisites Validator</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Select contract parameters below to test legal status according to Articles 1318, 1380, and 1409 of the Civil Code.</p>
+
+                <form class="checker-form" id="validatorForm">
+                    <div class="form-group">
+                        <label for="valConsent">1. Consent Status:</label>
+                        <select id="valConsent" onchange="runContractCheck()">
+                            <option value="valid">Valid & Freely Given</option>
+                            <option value="vitiated">Vitiated (Intimidation, Fraud, Mistake)</option>
+                            <option value="minor">One Party Incapable (Minor / Insane)</option>
+                            <option value="none">No Consent Given / Simulated</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valObject">2. Object / Subject Matter:</label>
+                        <select id="valObject" onchange="runContractCheck()">
+                            <option value="valid">Licit & Legal (e.g. Laptop, Service)</option>
+                            <option value="illegal">Illegal / Outside Commerce (e.g. Smuggled Goods)</option>
+                            <option value="impossible">Impossible Service (e.g. Fly without equipment)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valCause">3. Cause / Consideration:</label>
+                        <select id="valCause" onchange="runContractCheck()">
+                            <option value="valid">Licit & Valid Price/Service</option>
+                            <option value="false">Unlawful / Fictitious Cause</option>
+                            <option value="absent">No Cause / Consideration</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valLesion">4. Financial Lesion / Harm:</label>
+                        <select id="valLesion" onchange="runContractCheck()">
+                            <option value="none">Fair Value / No Harm</option>
+                            <option value="fraud_creditor">Intended to Defraud Creditors</option>
+                            <option value="ward_damage">Damages Ward Property by > 25%</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="checker-result" id="checkerResultDisplay">
+                    <h3 id="resultTitle" style="color:var(--primary);">Status: Valid Contract</h3>
+                    <p id="resultDesc" style="font-size:0.9rem;">All essential requisites under Article 1318 (Consent, Object Certain, and Cause) are present without defects. The contract is binding and enforceable in court.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8-QUESTION QUIZ TAB -->
+        <div id="quiz" class="tab-panel">
+            <div class="quiz-container">
+                <h2 style="color:var(--dark-navy); margin-bottom:0.4rem;">Obligations & Contracts Knowledge Check</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Answer all 8 questions to evaluate your understanding. Click "Submit Quiz" at the bottom to check score.</p>
+
+                <form id="quizForm">
+                    <!-- Question 1 -->
+                    <div class="quiz-question" data-q="1" data-correct="B">
+                        <p>1. Article 1156 defines an obligation as a juridical necessity to:</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q1" value="A"> A) Sign notarized contracts before a lawyer</label>
+                            <label class="option-label"><input type="radio" name="q1" value="B"> B) Give, to do, or not to do</label>
+                            <label class="option-label"><input type="radio" name="q1" value="C"> C) Pay taxes exclusively to the government</label>
+                            <label class="option-label"><input type="radio" name="q1" value="D"> D) Perform acts approved by municipal ordinance</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Art. 1156 explicitly defines an obligation as a juridical necessity to give, to do, or not to do.</div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="quiz-question" data-q="2" data-correct="C">
+                        <p>2. Accidental overpayment received through GCash generates an obligation to return under which source?</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q2" value="A"> A) Delict (Crime)</label>
+                            <label class="option-label"><input type="radio" name="q2" value="B"> B) Expressed Contract</label>
+                            <label class="option-label"><input type="radio" name="q2" value="C"> C) Quasi-Contract (Solutio Indebiti)</label>
+                            <label class="option-label"><input type="radio" name="q2" value="D"> D) Quasi-Delict (Tort)</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Solutio Indebiti is a quasi-contract created to prevent unjust enrichment when money or property is delivered by mistake.</div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="quiz-question" data-q="3" data-correct="A">
+                        <p>3. What standard of care is required for an obligor to preserve a specific thing (Art. 1163)?</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q3" value="A"> A) Diligence of a good father of a family</label>
+                            <label class="option-label"><input type="radio" name="q3" value="B"> B) Absolute extraordinary diligence in all cases</label>
+                            <label class="option-label"><input type="radio" name="q3" value="C"> C) Minimal diligence</label>
+                            <label class="option-label"><input type="radio" name="q3" value="D"> D) No diligence required unless paid</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Unless the law or contract states otherwise, Art. 1163 requires the diligence of a good father of a family.</div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="quiz-question" data-q="4" data-correct="B">
+                        <p>4. Deliberate intent to evade the normal fulfillment of an obligation is known as:</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q4" value="A"> A) Negligence (Culpa)</label>
+                            <label class="option-label"><input type="radio" name="q4" value="B"> B) Fraud (Dolo)</label>
+                            <label class="option-label"><input type="radio" name="q4" value="C"> C) Delay (Mora)</label>
+                            <label class="option-label"><input type="radio" name="q4" value="D"> D) Caso Fortuito</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Fraud (Dolo) under Art. 1170 is deliberate evasion of an obligation's performance.</div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="quiz-question" data-q="5" data-correct="D">
+                        <p>5. Which of the following is NOT an essential requisite of a contract under Article 1318?</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q5" value="A"> A) Consent of contracting parties</label>
+                            <label class="option-label"><input type="radio" name="q5" value="B"> B) Object Certain</label>
+                            <label class="option-label"><input type="radio" name="q5" value="C"> C) Cause or Consideration</label>
+                            <label class="option-label"><input type="radio" name="q5" value="D"> D) Written Notarization by a Law Firm</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Contracts are generally consensual (Art. 1318). Notarization is not an essential element for validity, though required for certain public documents.</div>
+                    </div>
+
+                    <!-- Question 6 -->
+                    <div class="quiz-question" data-q="6" data-correct="B">
+                        <p>6. A contract entered into by an un-emancipated minor without parental consent is categorized as:</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q6" value="A"> A) Rescissible</label>
+                            <label class="option-label"><input type="radio" name="q6" value="B"> B) Voidable</label>
+                            <label class="option-label"><input type="radio" name="q6" value="C"> C) Void from the beginning</label>
+                            <label class="option-label"><input type="radio" name="q6" value="D"> D) Valid and unimpeachable</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Incapacity of one of the parties (such as minority) makes a contract voidable (valid until annulled by court).</div>
+                    </div>
+
+                    <!-- Question 7 -->
+                    <div class="quiz-question" data-q="7" data-correct="C">
+                        <p>7. A contract with an illegal object (e.g., selling prohibited drugs) is:</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q7" value="A"> A) Voidable within 4 years</label>
+                            <label class="option-label"><input type="radio" name="q7" value="B"> B) Rescissible due to lesion</label>
+                            <label class="option-label"><input type="radio" name="q7" value="C"> C) Void / Inexistent from the beginning</label>
+                            <label class="option-label"><input type="radio" name="q7" value="D"> D) Unenforceable</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Under Art. 1409, contracts whose cause or object is contrary to law or public order are void and inexistent from the beginning.</div>
+                    </div>
+
+                    <!-- Question 8 -->
+                    <div class="quiz-question" data-q="8" data-correct="A">
+                        <p>8. What is the legal effect of a Fortuitous Event (Art. 1174) when a debtor is NOT in delay?</p>
+                        <div class="quiz-options">
+                            <label class="option-label"><input type="radio" name="q8" value="A"> A) Extinguishes liability for non-performance</label>
+                            <label class="option-label"><input type="radio" name="q8" value="B"> B) Doubles damages owed to creditor</label>
+                            <label class="option-label"><input type="radio" name="q8" value="C"> C) Converts obligation into criminal delict</label>
+                            <label class="option-label"><input type="radio" name="q8" value="D"> D) Has no legal effect</label>
+                        </div>
+                        <div class="quiz-explanation">Explanation: Except in cases provided by law or stipulation, no person is liable for fortuitous events provided there is no delay or fraud.</div>
+                    </div>
+
+                    <button type="button" class="action-btn" onclick="evaluateQuiz()">Submit Quiz & Check Score</button>
+                </form>
+
+                <div id="scoreBanner" class="score-banner"></div>
+            </div>
+        </div>
+
+        <!-- SAVED REVIEWER TAB -->
+        <div id="bookmarks" class="tab-panel">
+            <div class="topic-card">
+                <h2 style="color:var(--dark-navy); margin-bottom:0.5rem;">Saved Reviewer Topics</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Manage your saved study modules for quick revision prior to exams.</p>
+                
+                <div id="savedContainer">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Global Toast Notification -->
+    <div id="toastNotification" class="toast">Topic saved to reviewer!</div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Obligations & Contracts Educational Web Project | Submitted by <strong>Aj Delos Reyes (23-00089)</strong></p>
+        <p style="margin-top:4px; opacity:0.8;">4th Year BS Information Technology — Web Development Course</p>
+    </footer>
+
+    <!-- Vanilla JS Logic -->
+    <script>
+        /* =========================================================
+           STATE MANAGEMENT & LOCAL STORAGE
+           ========================================================= */
+        let bookmarks = JSON.parse(localStorage.getItem('oblicon_saved_topics')) || [];
+
+        window.onload = function() {
+            updateBookmarkButtons();
+            renderSavedTopics();
+            runContractCheck(); // Initialize contract tool
+        };
+
+        /* =========================================================
+           TAB NAVIGATION CONTROLLER
+           ========================================================= */
+        function switchTab(tabId, btnElement) {
+            // Hide all tab panels
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // Remove active class from buttons
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            // Show selected tab & activate button
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+
+            if (tabId === 'bookmarks') {
+                renderSavedTopics();
+            }
+        }
+
+        /* =========================================================
+           SEARCH & CATEGORY FILTERING ENGINE
+           ========================================================= */
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const cards = document.querySelectorAll('.topic-card');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const text = card.innerText.toLowerCase();
+
+                const matchesSearch = text.includes(query);
+                const matchesCategory = (category === 'ALL' || cardCategory === category);
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        /* =========================================================
+           BOOKMARKING SYSTEM WITH LOCALSTORAGE & TOAST
+           ========================================================= */
+        function toggleBookmark(id, title) {
+            const index = bookmarks.findIndex(item => item.id === id);
+
+            if (index === -1) {
+                bookmarks.push({ id: id, title: title });
+                showToast(`Saved "${title}" to Reviewer!`);
+            } else {
+                bookmarks.splice(index, 1);
+                showToast(`Removed from Reviewer.`);
+            }
+
+            localStorage.setItem('oblicon_saved_topics', JSON.stringify(bookmarks));
+            updateBookmarkButtons();
+            renderSavedTopics();
+        }
+
+        function updateBookmarkButtons() {
+            document.getElementById('bookmarkBadge').innerText = bookmarks.length;
+
+            const cards = document.querySelectorAll('.topic-card');
+            cards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                const btn = card.querySelector('.bookmark-btn');
+                if (btn) {
+                    const isSaved = bookmarks.some(item => item.id === id);
+                    if (isSaved) {
+                        btn.classList.add('saved');
+                        btn.querySelector('.btn-text').innerText = 'Saved';
+                    } else {
+                        btn.classList.remove('saved');
+                        btn.querySelector('.btn-text').innerText = 'Save';
+                    }
+                }
+            });
+        }
+
+        function renderSavedTopics() {
+            const container = document.getElementById('savedContainer');
+            if (bookmarks.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); font-style: italic;">No saved topics yet. Click the "★ Save" button on any lesson card to store it here.</p>`;
+                return;
+            }
+
+            let html = '<ul class="bullet-list" style="margin-left:0; list-style:none;">';
+            bookmarks.forEach(item => {
+                html += `
+                    <li style="background:#f8fafc; padding:10px 14px; border-radius:6px; margin-bottom:8px; border:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                        <strong>${item.title}</strong>
+                        <div>
+                            <button onclick="jumpToTopic('${item.id}')" style="background:var(--primary); color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:0.8rem; cursor:pointer; margin-right:6px;">View Lesson</button>
+                            <button onclick="toggleBookmark('${item.id}', '${item.title}')" style="background:#fee2e2; color:#991b1b; border:none; padding:4px 10px; border-radius:4px; font-size:0.8rem; cursor:pointer;">Remove</button>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        function jumpToTopic(id) {
+            const card = document.querySelector(`[data-id="${id}"]`);
+            if (card) {
+                switchTab('lessons', document.querySelector('.nav-item'));
+                card.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        /* =========================================================
+           INTERACTIVE CONTRACT REQUISITES CHECKER ALGORITHM
+           ========================================================= */
+        function runContractCheck() {
+            const consent = document.getElementById('valConsent').value;
+            const object = document.getElementById('valObject').value;
+            const cause = document.getElementById('valCause').value;
+            const lesion = document.getElementById('valLesion').value;
+
+            const titleElem = document.getElementById('resultTitle');
+            const descElem = document.getElementById('resultDesc');
+            const box = document.getElementById('checkerResultDisplay');
+
+            // 1. Check for VOID Conditions (Art. 1409)
+            if (object === 'illegal' || object === 'impossible' || cause === 'false' || cause === 'absent' || consent === 'none') {
+                box.style.borderLeftColor = '#ef4444';
+                titleElem.style.color = '#dc2626';
+                titleElem.innerText = 'Status: VOID / INEXISTENT CONTRACT (Art. 1409)';
+                descElem.innerText = 'This contract produces NO legal effect whatsoever from the beginning. It cannot be ratified or enforced in court because the cause/object is illegal or consent is completely absent.';
+                return;
+            }
+
+            // 2. Check for UNENFORCEABLE Conditions
+            if (consent === 'minor' && object === 'impossible') {
+                box.style.borderLeftColor = '#8b5cf6';
+                titleElem.style.color = '#7c3aed';
+                titleElem.innerText = 'Status: UNENFORCEABLE CONTRACT';
+                descElem.innerText = 'Cannot be enforced in court unless ratified by legal guardians or proper authority.';
+                return;
+            }
+
+            // 3. Check for VOIDABLE Conditions (Art. 1390)
+            if (consent === 'vitiated' || consent === 'minor') {
+                box.style.borderLeftColor = '#3b82f6';
+                titleElem.style.color = '#2563eb';
+                titleElem.innerText = 'Status: VOIDABLE CONTRACT (Art. 1390)';
+                descElem.innerText = 'The contract is VALID and binding until annulled by a court of law. It can be ratified to clean the defect.';
+                return;
+            }
+
+            // 4. Check for RESCISSIBLE Conditions (Art. 1381)
+            if (lesion !== 'none') {
+                box.style.borderLeftColor = '#f59e0b';
+                titleElem.style.color = '#d97706';
+                titleElem.innerText = 'Status: RESCISSIBLE CONTRACT (Art. 1381)';
+                descElem.innerText = 'Valid and binding, but may be rescinded due to economic damage (lesion) or intent to defraud creditors.';
+                return;
+            }
+
+            // Default: VALID
+            box.style.borderLeftColor = 'var(--primary)';
+            titleElem.style.color = 'var(--primary)';
+            titleElem.innerText = 'Status: VALID & BINDING CONTRACT (Art. 1318)';
+            descElem.innerText = 'All essential requisites (Consent, Object Certain, and Cause) are fully satisfied without defects. The contract has the force of law between the contracting parties.';
+        }
+
+        /* =========================================================
+           QUIZ EVALUATION ENGINE
+           ========================================================= */
+        function evaluateQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            const total = questions.length;
+
+            questions.forEach(q => {
+                const qNum = q.getAttribute('data-q');
+                const correctAnswer = q.getAttribute('data-correct');
+                const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
+                const expBox = q.querySelector('.quiz-explanation');
+
+                expBox.classList.add('show');
+
+                if (selected && selected.value === correctAnswer) {
+                    score++;
+                    expBox.className = 'quiz-explanation show correct';
+                } else {
+                    expBox.className = 'quiz-explanation show incorrect';
+                }
+            });
+
+            const banner = document.getElementById('scoreBanner');
+            banner.style.display = 'block';
+
+            if (score >= 6) {
+                banner.style.backgroundColor = '#dcfce7';
+                banner.style.color = '#166534';
+                banner.innerText = `🎉 High Score: ${score} / ${total}! Excellent grasp of Obligations & Contracts.`;
+            } else {
+                banner.style.backgroundColor = '#fee2e2';
+                banner.style.color = '#991b1b';
+                banner.innerText = `Score: ${score} / ${total}. Review the lesson topics and flashcards to improve your score!`;
+            }
+
+            banner.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
